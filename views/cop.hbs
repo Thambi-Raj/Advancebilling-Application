@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        
+        .head{
+            text-align: center;
+            font-weight: bold;
+        }
+        tr,th,td,table{
+            border:2px solid black;
+        }
+    
+    </style>
+</head>
+<body onload="get()">
+       <div class="container">
+        <div class="head">
+            <br>
+            <br>
+        VLS BODYBUILDERS,<BR>
+        Salem MainRoad,<BR>
+        Sankagiri,<BR>
+        Salem.<BR>
+        GSTIN/UIN:29890878AEE <BR>
+        ph:7708179320<br>
+        </div>
+        <br>
+        <br>
+        <p style="text-align: center;font-weight:bold">Company Details</p>
+        <div class="">
+                    <table id="details">
+                        <tr>
+                            <th style="width:200px;text-align:center">S No</th>
+                            <th style="width:700px;text-align:center;">CompanyName</th>
+                            <th style="width:300px;text-align:center;   ">Total Amount</th>
+                        </tr>
+                    </table>
+        </div>
+        </div>
+    <p id="name"  style="display:none">{{name}}</p> 
+    <p id="total" style="display:none">{{total}}</p>
+</body>
+<script>
+    const params = new URLSearchParams(window.location.search);
+     const name = params.get("name");
+   var i=0;
+    function get(){
+            const r=document.getElementById("name").innerHTML;
+            const r1=document.getElementById('total').innerHTML;
+            const arr=r.split(',');
+            const arr1=r1.split(',');
+            var j=1;
+            for(var i=0;i<arr.length-1;i++){
+             const a=document.getElementById('details');
+             const b=document.createElement('tr');
+             const y0=document.createElement('td');
+             y0.setAttribute('style','width:200px;text-align:center;')
+             const y=document.createElement('td');
+             y.setAttribute('style','width:700px;text-align:center;')
+             const y2=document.createElement('td');
+             y2.setAttribute('style','width:300px;text-align:center;')
+             y0.innerText=j;
+             y.innerText=arr[i];
+             y2.innerText=arr1[i];
+             j++;
+             b.appendChild(y0);
+             b.appendChild(y);
+             b.appendChild(y2);
+             a.appendChild(b);
+        }
+    }
+</script>
+</html>

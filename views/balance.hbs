@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="">Company Name</label>
+         <input type="text"  id="pname" class="pname" onkeyup="search(this.value)">
+        <div id="section"></div>
+</body>
+<script>
+     function search(e) {
+    const p = e;
+   
+    fetch(`company?e=${p}`).then(res => res.json()).then(data => {
+      let r = data.ar;
+      if (r.length == 0) {
+        const para = document.createElement("p");
+        const node = document.createTextNode("Sorry Not found");
+        para.appendChild(node);
+        const element = document.getElementById("section");
+        element.innerHTML = '';
+        element.appendChild(para);
+      }
+      else {
+           const element = document.getElementById("section");
+          element.innerHTML = '';
+        for (var i = 0; i < r.length; i++) {
+          const p="stock".localeCompare(r[i]);
+          const p1="username".localeCompare(r[i]);
+          if(p!=0 && p1!=0){
+          const hr=document.createElement('hr');
+          const para = document.createElement("p");
+          const u=r[i];
+          const node = document.createTextNode(r[i]);
+          para.setAttribute("onclick","value(this.innerHTML)");
+          para.appendChild(node);
+          element.appendChild(para);
+          element.appendChild(hr);
+          }
+          else{
+           
+           const para = document.createElement("p");
+           const node = document.createTextNode("Sorry Not found");
+           para.appendChild(node);
+           const element = document.getElementById("section");
+           element.innerHTML = '';
+           element.appendChild(para);
+           
+          }
+        }
+      }
+    });
+  }
+</script>
+</html>

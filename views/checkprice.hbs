@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text"  placeholder="enter product name"  id="produ" onclick="show()" onkeyup="product(this.value)">
+    <section id="sea">
+
+    </section>
+      <button onclick="ch(document.getElementById('produ').value)">
+        check price
+      </button>
+      <section id="price">
+
+      </section>
+</body>
+<script>
+   function product(e){
+        const s=document.getElementById('sea');
+    fetch('bill1',{
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json'},
+        body:JSON.stringify({payload:e})
+    }).then(res=> res.json()).then(data=>{
+        let payload=data.payload;
+        s.innerHTML='';
+        console.log(payload)
+        if(payload.length<1){
+            s.innerHTML='<p>Sorry. not found.</p>'
+            return ; 
+        }
+        payload.forEach(element => {
+            s.innerHTML+='<hr>';
+            s.innerHTML+=`<p onclick="sd(this.innerHTML)">`+element+`</p>`;
+        });
+
+        return ;
+    })
+    }
+
+    function sd(e){
+        document.getElementById('produ').value=e;
+    }
+    function ch(e){
+        console.log(e)
+            document.getElementById('sea').style.display="none";
+             fetch(`price?e=${e}`).then(res=>res.json()).then(data=>{
+                    const ok=document.getElementById('price');
+                    const arr=data.ar;
+                    ok.innerHTML='';
+                    for(var i=0;i<arr.length;i++){
+                        
+                        ok.innerHTML+=`<p >`+arr[i]+`</p>`;
+                    }
+             })
+    }
+    function show(){
+        document.getElementById('sea').style.display='block';
+    }
+</script>
+</html>

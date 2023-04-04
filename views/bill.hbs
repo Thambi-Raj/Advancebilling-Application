@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello</title>
+</head>
+<style>
+    
+    body{
+        color: green;
+    }
+    #search{
+        float: right;
+        width: 100px;
+        text-align: center;
+    }
+    #p{
+        display: none;
+        
+    }
+    #lol:active #p{
+        display: block;
+    }
+</style>
+<body>
+    <div class="row">
+        <div class="col-ms-3">
+            <p>hello</p>
+        </div>  
+        <div class="col-md-1">
+            <p>hello</p>
+        </div>
+     </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+<div class="container" id="container">
+    <input type="text" placeholder="Sno" disabled>
+    <input type="text" name="" id="" placeholder="Product Name" disabled>
+    <input type="number" name="" id="" placeholder="Quantity">
+    <input type="text" placeholder="total" disabled>
+    <input type="text" name="" id="" placeholder="discount" diasbled>
+    <input type="text" name="" id="" placeholder="Total" disabled>
+    <select class="GST%" id="" disabled="disabled">
+        <option value="GST%">GST</option>
+    </select>
+    <img src="" alt="">
+    {{pk}}
+  <div class="row align-items-center vh-100">
+      <div class="col-6 mx-auto">
+          <div class="card shadow border">
+              <div class="card-body d-flex flex-column align-items-center">
+                <div id="addpro">
+                <div id="pp" class="aop">
+              <!--<button onclick="print()">submit</button> !-->
+                 <input type="text" class="sno" value="" placeholder="sno">
+                <input type="text" class ="ok" onfocus="showp()"  id="lol" onkeyup="onc(this)" autocomplete="additional-name">
+                <input type="number" class ="qu" name="" id="lop"   onchange="amount()"onfocus="hidep()" onkeyup="k(document.getElementById('lol').value,this)">
+                <input type="text" class="pric" id="rate" placeholder="rate" value="0" onkeyup="amount">
+                <input type="text" class="dis" id="disper"  placeholder="discount" value="0">
+                <input type="text" class="to" id="total" onfocus="amount()" placeholder="total" value="0">
+                <select id="cars" class="gst" onchange="gst()">
+                 <option value="0">  0%</option>
+                 <option value="5">5%</option>
+                 <option value="18">18%</option>
+                 <option value="28">28%</option>
+                  </select>
+                </div>
+                </div>             
+              </div>
+              
+          </div>
+      </div>
+  </div>
+</div>
+<section id="search" style="display:none":></section>
+
+</div>
+</div>
+</div>
+</body>
+
+<script>
+    const search = document.getElementById('search');
+    var fir=0;
+    var sec=0;
+    var third=0;
+    var fourth=0;
+    function print (){
+      const arr=[];
+      const ok=[];
+      const up=document.getElementsByClassName('ok');
+      const qu=document.getElementsByClassName('qu');
+      for(var i=0;i<up.length;i++){
+        arr[i]=up[i].value;
+        ok[i]=qu[i].value;
+      }
+      var st=arr.join(',');
+      var st1=ok.join(',');
+      window.location.href=`http://localhost:1000/op?st=${st}&st1=${st1}`
+    }
+    function ol(){
+        const p=document.createElement('input');
+        p.setAttribute('value','Gst are %');
+        p.setAttribute('disabled','');
+        const l=document.createElement('input');
+        l.setAttribute('value',fir);
+        document.getElementsByTagName('body')[0].appendChild(p);
+        document.getElementsByTagName('body')[0].appendChild(l);
+        const linebreak = document.createElement("br");
+ document.getElementsByTagName('body')[0].appendChild(linebreak); 
+       const y=document.createElement('input');
+       const y1=document.createElement('input');
+       y1.setAttribute('value','total');
+       const arr=document.getElementsByClassName('to');
+       var val=0;
+       for(var i=0;i<arr.length;i++){
+                val+=parseInt(arr[i].value);
+       }
+       document.getElementsByTagName('body')[0].appendChild(y1);
+       console.log(val+fir);
+       y.setAttribute('value',val+fir);
+       document.getElementsByTagName('body')[0].appendChild(y);
+    }
+    function gst(){
+        const op=document.querySelectorAll('.gst');
+        var i=0;
+      op.forEach(input => {
+           input.addEventListener('click', event => {
+               const pkl=document.getElementsByClassName('to')[i-1].value;
+               const pk2=document.getElementsByClassName('gst')[i-1].value;
+                var sump=pkl-(pkl*(100/(100+parseInt(pk2))));
+                sump=Math.round(sump);
+                fir+=sump;
+                let r=pkl-sump;
+                r=Math.round(r);
+                document.getElementsByClassName('to')[i-1].value=r;
+                
+            });
+           i+=1;
+        });
+    }
+    function showp(){
+        console.log('...')
+        search.style.display='block';
+    }
+    function hidep(){
+        console.log('...')
+        search.style.display='none';
+    }
+       function onc(e){
+     const s=document.getElementById('search');
+     console.log(e);
+    fetch('bill1',{
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json'},
+        body:JSON.stringify({payload:e})
+    }).then(res=> res.json()).then(data=>{
+        let payload=data.payload;
+        s.innerHTML='';
+        console.log(payload)
+        if(payload.length<1){
+            s.innerHTML='<p>Sorry. not found.</p>'
+            return ; 
+        }
+
+        payload.forEach(element => {
+            s.innerHTML+='<hr>';
+            s.innerHTML+=`<p onclick="sd(this.innerHTML)">`+element+`</p>`;
+        });
+
+        return ;
+    })
+    }
+
+    function sd(e){
+       const p=document.getElementsByClassName('ok');
+        for(var i=1;i<=p.length;i++){
+              if(i==p.length){
+                console.log(i);
+                document.getElementsByClassName('ok')[i-1].value=e;
+              }
+        }
+       
+    }
+    function k(e,k){
+        const p=document.getElementsByClassName('sno');
+        const r=document.getElementsByClassName('ok')[p.length-1].value;
+        fetch('quan',{
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json'},
+        body:JSON.stringify({pname:r,quanti:k.value})
+        }).then(res=>res.json()).then(data=>{
+            if(data.arr.length<1)
+              window.alert('product name is wrong');
+            if(!data.bool)
+              window.alert('quantity is low in stock')
+        })
+    }
+    
+    function remove(){
+       const op=document.getElementsByClassName('aop')
+        const yu=op[op.length-1];
+        yu.remove()
+    }
+    function amount(){
+            
+           const inputs = document.querySelectorAll('.qu');
+           var i=0;
+           inputs.forEach(input => {
+           input.addEventListener('click', event => {
+                const r=document.getElementsByClassName('to');
+                const r1=document.getElementsByClassName('qu')[i-1];
+                const r2=document.getElementsByClassName('pric')[i-1];
+                const r3=document.getElementsByClassName('dis')[i-1];
+        //console.log(r1.value +'00'+r2.value+'000'+r3.value)
+        document.getElementsByClassName('to')[i-1].value=parseInt(r1.value)*(parseInt(r2.value)-parseInt(r3.value));
+            });
+            i+=1;
+        });
+
+        const r=document.getElementsByClassName('to');
+        const r1=document.getElementsByClassName('qu')[r.length-1];
+        const r2=document.getElementsByClassName('pric')[r.length-1];
+        const r3=document.getElementsByClassName('dis')[r.length-1];
+        //console.log(r1.value +'00'+r2.value+'000'+r3.value)
+        document.getElementsByClassName('to')[r.length-1].value=parseInt(r1.value)*(parseInt(r2.value)-parseInt(r3.value));
+    }
+
+    function addp(e,k){
+        const g = document.createElement('div'); 
+        g.setAttribute("id", "pp");
+        g.setAttribute("class","aop")
+        const p=document.getElementById('pp');
+        g.insertAdjacentHTML('beforeend',p.innerHTML);
+        const y=document.createElement('hr');
+        document.getElementById('container').appendChild(y)
+        document.getElementById('container').appendChild(g);
+    }
+</script>
+</html>
